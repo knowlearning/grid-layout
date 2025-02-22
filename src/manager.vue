@@ -2,6 +2,7 @@
   import { ref, reactive, computed } from 'vue'
   import { vueEmbedComponent } from '@knowlearning/agents/vue.js'
   import Button from './button.vue'
+  import GridLayout from './grid-layout.vue'
 
   const content = reactive(await Agent.state('content'))
   const sidebarWidth = ref(300)
@@ -115,13 +116,11 @@
       </div>
     </div>
     <div id="content">
-      <div
+      <GridLayout
         v-if="activeContent"
         :key="activeContent"
         :uuid="activeContent"
-      >
-        {{ activeContent }}
-      </div>
+      />
     </div>
   </div>
   <div
