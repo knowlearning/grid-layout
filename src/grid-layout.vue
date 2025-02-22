@@ -1,5 +1,13 @@
 <script setup>
   import { ref, computed, reactive } from 'vue'
+  import  { vueEmbedComponent } from '@knowlearning/agents/vue.js'
+  import { validate as isUUID } from 'uuid'
+
+  const numRows = ref(6)
+  const numColumns = ref(6)
+  const rowGap = ref(8)
+  const columnGap = ref(8)
+  const activeArea = ref(null)
 
   const props = defineProps({ uuid: String })
 
@@ -8,13 +16,6 @@
   if (!state.areas) state.areas = []
 
   const areas = state.areas
-
-  const numRows = ref(6)
-  const numColumns = ref(6)
-  const rowGap = ref(8)
-  const columnGap = ref(8)
-  const activeArea = ref(null)
-
   const cssGridStyle = computed(() => {
     return `
       display: grid;
@@ -92,7 +93,7 @@
         </div>
       </template>
       <div
-        v-for="area, index in state.areas"
+        v-for="area, index in areas"
         class="area"
         :style="`
           pointer-events: ${ activeArea ? 'none' : 'auto' };
@@ -114,7 +115,7 @@
         >
           x
         </button>
-        {{ area.content }}
+        <vueEmbedComponent v-if="isUUID(area.content)" :id="area.content" />
       </div>
       <div
         v-if="activeArea"
